@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
-  public final Motor motor = new Motor(0);
+  public final Motor motor = new Motor(15);
   
   public final CommandXboxController controller = new CommandXboxController(0);
   // The robot's subsystems and commands are defined here...
