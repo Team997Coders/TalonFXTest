@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.DefaultMove;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Motor;
@@ -21,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
-  public final Motor motor = new Motor(0);
+  public final Motor motor = new Motor(15);
   
   public final CommandXboxController controller = new CommandXboxController(0);
   // The robot's subsystems and commands are defined here...
@@ -34,6 +35,15 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+        // Configure default commands
+    // Set the default drive command to split-stick arcade drive
+    motor.setDefaultCommand(
+        // A split-stick arcade command, with forward/backward controlled by the left
+        // hand, and turning controlled by the right.
+        new DefaultMove(
+            motor,
+            () -> -controller.getLeftTriggerAxis())
+      );
     configureBindings();
   }
 
@@ -48,8 +58,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    controller.axisGreaterThan(0, 0).onTrue(motor.setOutput(controller.getRawAxis(0)));
-    controller.axisLessThan(0, 0).onTrue(motor.setOutput(controller.getRawAxis(0)));
+    //controller.axisGreaterThan(0, 0).onTrue(motor.setOutput(controller.getRawAxis(0)));
+    //controller.axisLessThan(0, 0).onTrue(motor.setOutput(controller.getRawAxis(0)));
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
@@ -57,7 +67,7 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_driverController.b().whileTrue(motor.setOutput(0.5)).onFalse(motor.setOutput(0));
   }
 
   /**
