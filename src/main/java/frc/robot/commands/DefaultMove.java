@@ -4,6 +4,7 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Motor;
 
@@ -32,6 +33,14 @@ public class DefaultMove extends Command {
 
   @Override
   public void execute() {
-    motor.setOutput(m_forward.getAsDouble());
+    double input = m_forward.getAsDouble();
+    SmartDashboard.putNumber("joystick", input);
+    motor.setOutput(input);
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
   }
 }

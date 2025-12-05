@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultMove;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.MotorMove;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Motor;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,11 +27,6 @@ public class RobotContainer {
   public final Motor motor = new Motor(2);
   
   public final CommandXboxController controller = new CommandXboxController(0);
-  // The robot's subsystems and commands are defined here...
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -40,9 +36,9 @@ public class RobotContainer {
     motor.setDefaultCommand(
         // A split-stick arcade command, with forward/backward controlled by the left
         // hand, and turning controlled by the right.
-        new DefaultMove(
+        new MotorMove(
             motor,
-            () -> -controller.getLeftTriggerAxis())
+            () -> -controller.getRawAxis(0))
       );
     configureBindings();
   }
@@ -69,7 +65,7 @@ public class RobotContainer {
     // cancelling on release.
     controller.b().whileTrue(motor.setOutput(0.5)).onFalse(motor.setOutput(0));
 
-    // controller.rightStick().whileTrue(motor.setOutput(.5));
+    controller.rightStick().whileTrue(motor.setOutput(controller.getRightX()));
     // controller.leftStick().whileTrue(motor2.setOutput(.5));
   }
 
