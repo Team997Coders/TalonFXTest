@@ -11,6 +11,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Motor;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -22,13 +23,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
-  public final Motor motor = new Motor(1);
-  public final Motor motor2 = new Motor(2);
-
+  public final Motor motor = new Motor(2);
   
   public final CommandXboxController controller = new CommandXboxController(0);
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -69,8 +67,7 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    // m_driverController.b().whileTrue(motor.setOutput(0.5)).onFalse(motor.setOutput(0));
-    // m_driverController.a().whileTrue(motor2.setOutput(0.5)).onFalse(motor2.setOutput(0));
+    controller.b().whileTrue(motor.setOutput(0.5)).onFalse(motor.setOutput(0));
 
     // controller.rightStick().whileTrue(motor.setOutput(.5));
     // controller.leftStick().whileTrue(motor2.setOutput(.5));
@@ -83,6 +80,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return new InstantCommand();
   }
 }
